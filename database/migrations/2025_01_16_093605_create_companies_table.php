@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            // $table->foreignId('location_id')->constrained('locations');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('location_id')->constrained('locations');
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');
@@ -27,6 +27,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('companies', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+            $table->dropForeign(['location_id']);
+        });
         Schema::dropIfExists('companies');
     }
 };
