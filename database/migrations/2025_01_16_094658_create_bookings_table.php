@@ -34,6 +34,7 @@ return new class extends Migration
             $table->dropForeign(['car_id']);
             $table->dropForeign(['pickup_location_id']);
             $table->dropForeign(['dropoff_location_id']);
+            $table->timestamps();
         });
         Schema::dropIfExists('bookings');
     }

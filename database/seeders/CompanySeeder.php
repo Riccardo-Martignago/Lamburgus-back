@@ -7,29 +7,29 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Carbon;
 
-class CarSeeder extends Seeder
+class CompanySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DB::table('cars')->insert([
+        DB::table('companies')->insert([
             [
-                'company_id' => 1,
-                'model' => 'Toyota Corolla',
-                'brand' => 'Toyota',
-                'year' => '2020',
-                'license_plate' => 'ABC123',
+                'user_id' => 2, // Manager ID
+                'location_id' => 1,
+                'name' => 'Best Car Rentals',
+                'email' => 'contact@bestcars.com',
+                'phone_number' => '1234567890',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
             [
-                'company_id' => 2,
-                'model' => 'Ford Focus',
-                'brand' => 'Ford',
-                'year' => '2021',
-                'license_plate' => 'XYZ789',
+                'user_id' => 2, // Manager ID
+                'location_id' => 2,
+                'name' => 'Global Rentals',
+                'email' => 'support@globalrentals.com',
+                'phone_number' => '9876543210',
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ],
