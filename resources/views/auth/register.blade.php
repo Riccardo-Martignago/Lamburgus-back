@@ -39,21 +39,21 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
+        <!-- Role -->
+        <div>
             <x-input-label for="role" :value="__('Role')" />
 
             <div>
                 <x-input-label for="Admin">Admin</x-input-label>
-                <x-text-input id="role" class="block w-full mt-1" type="radio" name="role" required value="admin"/>
+                <x-text-input id="role_admin" class="mt-1" type="radio" name="role" required value="admin" />
             </div>
             <div>
                 <x-input-label for="Admin">Company</x-input-label>
-                <x-text-input id="role" class="block w-full mt-1" type="radio" name="role" required value="Company"/>
+                <x-text-input id="role_company" class="mt-1" type="radio" name="role" required value="company" />
             </div>
             <div>
                 <x-input-label for="Admin">Customer</x-input-label>
-                <x-text-input id="role" class="block w-full mt-1" type="radio" name="role" required value="Customer"/>
+                <x-text-input id="role_customer" class="mt-1" type="radio" name="role" required value="customer" />
             </div>
 
             {{-- <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" /> --}}
