@@ -1,7 +1,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const roleCompany = document.getElementById('role_company');
-        const locationSelection = document.getElementById('location-selection');
+        const locationSelection = document.getElementById('location_selection');
 
         document.querySelectorAll('input[name="role"]').forEach(radio => {
             radio.addEventListener('change', () => {
@@ -13,9 +13,14 @@
             });
         });
     });
+    document.getElementById("submit_button").addEventListener("click", function(){
+        document.getElementById("register_form").submit();
+        document.getElementById("locations_selection").submit();
+    });
 </script>
+
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ route('register') }}" id="register_form">
         @csrf
 
         <!-- Name -->
@@ -76,15 +81,6 @@
         </div>
 
         <!-- Location -->
-        <div id="location-selection" class="hidden mt-4">
-            <x-input-label for="location" :value="__('Select Location')" />
-            <select id="location" name="location_id" class="block w-full mt-1">
-                @include('locations.index')
-                <option value="">
-                    <a href="{{ route('locations.create') }}" class="block mt-2 text-blue-500 underline">+ Add a new location</a>
-                </option>
-            </select>
-        </div>
         {{-- <div x-data
         <div x-data="{ role: '{{ old('role', 'admin') }}' }" x-show="role === 'company'" class="mt-4">
             <x-input-label for="location_id" :value="__('Location')" />
@@ -99,9 +95,23 @@
                 {{ __('Already registered?') }}
             </a>
 
-            <x-primary-button class="ms-4">
+            {{-- <x-primary-button class="ms-4">
                 {{ __('Register') }}
-            </x-primary-button>
+            </x-primary-button> --}}
         </div>
     </form>
+    <form method="POST" action="{{ route('locations.store') }}" id="location_form">
+        @csrf
+
+        <div id="location_selection" class="hidden mt-4">
+            <x-input-label for="location" :value="__('Select Location')" />
+            <select id="location" name="location_id" class="block w-full mt-1">
+                @include('locations.index')
+            </select>
+            <button href="{{ route('locations.create') }}" class="block mt-2 text-blue-500 underline">Add a new location</button>
+        </div>
+    </form>
+    <x-primary-button id="submit_button" class="ms-4">
+        {{ __('Register') }}
+    </x-primary-button>
 </x-guest-layout>

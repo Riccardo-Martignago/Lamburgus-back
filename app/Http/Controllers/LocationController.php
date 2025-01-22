@@ -20,31 +20,29 @@ class LocationController extends Controller
         return view('locations.index', compact('locations'));
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  */
-    // public function create()
-    // {
-    //     // Mostra il form per creare una nuova location
-    //     return view('locations.create');
-    // }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        // Mostra il form per creare una nuova location
+        return view('locations.create');
+    }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  */
-    // public function store(Request $request)
-    // {
-    //     // Valida i dati ricevuti
-    //     $validated = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //     ]);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        // Valida i dati ricevuti
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
 
-    //     // Crea una nuova location nel database
-    //     Location::create($validated);
-
-    //     // Reindirizza con un messaggio di successo
-    //     return redirect()->route('locations.index')->with('success', 'Location created successfully.');
-    // }
+        // Crea una nuova location nel database
+        Location::create($validated);        // Reindirizza con un messaggio di successo
+        return redirect()->route('locations.index')->with('success', 'Location created successfully.');
+    }
 
     // /**
     //  * Display the specified resource.
