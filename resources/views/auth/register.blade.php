@@ -1,3 +1,19 @@
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const roleCompany = document.getElementById('role_company');
+        const locationSelection = document.getElementById('location-selection');
+
+        document.querySelectorAll('input[name="role"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                if (roleCompany.checked) {
+                    locationSelection.classList.remove('hidden');
+                } else {
+                    locationSelection.classList.add('hidden');
+                }
+            });
+        });
+    });
+</script>
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
@@ -60,8 +76,14 @@
         </div>
 
         <!-- Location -->
-        <div>
-            @include('locations.index')
+        <div id="location-selection" class="hidden mt-4">
+            <x-input-label for="location" :value="__('Select Location')" />
+            <select id="location" name="location_id" class="block w-full mt-1">
+                @include('locations.index')
+                <option value="">
+                    <a href="{{ route('locations.create') }}" class="block mt-2 text-blue-500 underline">+ Add a new location</a>
+                </option>
+            </select>
         </div>
         {{-- <div x-data
         <div x-data="{ role: '{{ old('role', 'admin') }}' }" x-show="role === 'company'" class="mt-4">
