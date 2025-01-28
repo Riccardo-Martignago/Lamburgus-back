@@ -44,6 +44,11 @@ class RegisteredUserController extends Controller
             'role' => $request->role,
         ]);
 
+        event(new Registered($user));
+
+        Auth::login($user);
+
+
         if ($request->role === 'company') {
             // Salviamo i dati dell'utente nella sessione per il prossimo step
             $request->session()->put('user_id', $user->id);
@@ -51,11 +56,6 @@ class RegisteredUserController extends Controller
             // Reindirizziamo al form di creazione company
             return redirect()->route('company.create');
         }
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
         return redirect(route('dashboard', absolute: false));
     }
 }

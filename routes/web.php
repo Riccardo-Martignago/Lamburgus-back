@@ -19,7 +19,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('/company', CompanyController::class);
+Route::resource('/company', CompanyController::class)->middleware('auth');
 
 Route::resource('/locations', LocationController::class);
 
