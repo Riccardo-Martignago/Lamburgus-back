@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\Location;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -20,8 +19,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $locations = Location::all();
-        return view('auth.register', compact('locations'));
+        User::all();
+        return view('auth.register');
     }
 
     /**
@@ -44,6 +43,14 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
             'role' => $request->role,
         ]);
+
+        if ($request->role === 'company') {
+            // Salviamo i dati dell'utente nella sessione per il prossimo step
+            $request->session()->put('user_id', $user->id);
+
+            // Reindirizziamo al form di creazione company
+            return redirect()->route('company.create');
+        }
 
         event(new Registered($user));
 

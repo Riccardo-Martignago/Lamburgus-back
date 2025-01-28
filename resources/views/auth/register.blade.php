@@ -1,22 +1,22 @@
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const roleCompany = document.getElementById('role_company');
-        const locationSelection = document.getElementById('location_selection');
-
-        document.querySelectorAll('input[name="role"]').forEach(radio => {
-            radio.addEventListener('change', () => {
-                if (roleCompany.checked) {
-                    locationSelection.classList.remove('hidden');
-                } else {
-                    locationSelection.classList.add('hidden');
-                }
-            });
-        });
-    });
-    document.getElementById("submit_button").addEventListener("click", function(){
-        document.getElementById("register_form").submit();
-        document.getElementById("locations_selection").submit();
-    });
+    //document.addEventListener('DOMContentLoaded', () => {
+    //    const roleCompany = document.getElementById('role_company');
+    //    const locationSelection = document.getElementById('location_selection');
+    //
+    //    document.querySelectorAll('input[name="role"]').forEach(radio => {
+    //        radio.addEventListener('change', () => {
+    //            if (roleCompany.checked) {
+    //                locationSelection.classList.remove('hidden');
+    //            } else {
+    //                locationSelection.classList.add('hidden');
+    //            }
+    //        });
+    //    });
+    //});
+    //document.getElementById("submit_button").addEventListener("click", function(){
+    //    document.getElementById("register_form").submit();
+    //    document.getElementById("locations_selection").submit();
+    //});
 </script>
 
 <x-guest-layout>
@@ -95,12 +95,12 @@
                 {{ __('Already registered?') }}
             </a>
 
-            {{-- <x-primary-button class="ms-4">
+            <x-primary-button class="ms-4">
                 {{ __('Register') }}
-            </x-primary-button> --}}
+            </x-primary-button>
         </div>
     </form>
-    <form method="POST" action="{{ route('locations.store') }}" id="location_form">
+    {{-- <form method="POST" action="{{ route('locations.store') }}" id="location_form">
         @csrf
 
         <div id="location_selection" class="hidden mt-4">
@@ -113,5 +113,5 @@
     </form>
     <x-primary-button id="submit_button" class="ms-4">
         {{ __('Register') }}
-    </x-primary-button>
+    </x-primary-button> --}}
 </x-guest-layout>

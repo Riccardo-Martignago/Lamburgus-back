@@ -17,34 +17,35 @@ class CompanyController extends Controller
     /**
      * Display the registration view.
      */
-    public function create(): View
+        public function create(Request $request)
     {
-        return view('auth.register');
+        // Recuperiamo l'utente salvato nella sessione
+        $user_id = $request->session()->get('user_id');
+
+        // Mostriamo il form di creazione delle aziende
+        return view('company.create', compact('user_id'));
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
+        // Validazione del form
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.Company::class],
             'phone_number' => ['required', 'numeric', 'phone_number', 'size:11']
         ]);
 
-        $company = Company::create([
+        // Creazione della company e associazione con l'utente
+        Company::create([
+            'user_id' => $request->user_id,
+            'location_id' => $request->location_id,
             'name' => $request->name,
             'email' => $request->email,
             'phone_number' => $request->phone_number,
         ]);
 
-        event(new Registered($company));
-
-        Auth::login($company);
-
-        return redirect(route('dashboard', absolute: false));
+        // Reindirizzamento finale
+        return redirect()->route('dashboard')->with('success', 'Company created successfully!');
     }
+
 }
