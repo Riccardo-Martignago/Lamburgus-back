@@ -72,6 +72,6 @@ class CompanyController extends Controller
             'country' => 'required|string|max:255',
         ]);
         $company->update($validated);
-        return redirect()->route('locations.index')->with('success', 'Location updated successfully.');
+        return redirect()->route('company.index')->with('success', 'Company updated successfully.');
     }
 }
