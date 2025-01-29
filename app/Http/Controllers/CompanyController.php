@@ -19,30 +19,35 @@ class CompanyController extends Controller
     /**
      * Display the registration view.
      */
+    public function index()
+    {
+        $companies = Auth::user()->companies;
+
+        return view('company.index', compact('companies'));
+    }
+
         public function create(Request $request)
     {
-        // Recuperiamo l'utente salvato nella sessione
+        // data location and authenticated user
         $locations = Location::all();
         $user = Auth::user();
 
         if (!Auth::check()) {
-            return redirect()->route('login')->with('error', 'Devi essere autenticato per creare un’azienda.');
+            return redirect()->route('login')->with('error', 'You must be authenticated to create a company.');
         }
 
-        // Mostriamo il form di creazione delle aziende
         return view('company.create', compact('user', 'locations'));
     }
 
     public function store(Request $request)
     {
-        // Validazione del form
+
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:companies,email'],
             'phone_number' => ['required', 'digits:11'],
         ]);
 
-        // Creazione della company e associazione con l'utente
         Company::create([
             'user_id' => Auth::id(),
             'location_id' => $request->location_id,
@@ -51,8 +56,22 @@ class CompanyController extends Controller
             'phone_number' => $request->phone_number,
         ]);
 
-        // Reindirizzamento finale
         return redirect()->route('dashboard');
     }
 
+    public function edit (Company $companies)
+    {
+        return view('company.edit', compact('companies'));
+    }
+    public function update(Request $request, Company $company)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+        ]);
+        $company->update($validated);
+        return redirect()->route('locations.index')->with('success', 'Location updated successfully.');
+    }
 }

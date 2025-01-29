@@ -48,7 +48,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-
         if ($request->role === 'company') {
             // Salviamo i dati dell'utente nella sessione per il prossimo step
             $request->session()->put('user_id', $user->id);
