@@ -19,6 +19,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
+        User::all();
         return view('auth.register');
     }
 
@@ -47,6 +48,13 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
+        if ($request->role === 'company') {
+            // Salviamo i dati dell'utente nella sessione per il prossimo step
+            $request->session()->put('user_id', $user->id);
+
+            // Reindirizziamo al form di creazione company
+            return redirect()->route('company.create');
+        }
         return redirect(route('dashboard', absolute: false));
     }
 }

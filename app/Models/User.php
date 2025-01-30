@@ -54,4 +54,7 @@ class User extends Authenticatable
     public function companies() {
         return $this->hasMany(Company::class);
     }
+    public function hasRole($role) {
+        return $this->role === $role;
+    }
 }

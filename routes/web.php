@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -18,10 +19,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::middleware('auth')->group(function () {
-//     Route::resource([
-//         'location' => LocationController::class,
-//     ]);
-// });
+Route::resource('/company', CompanyController::class)->middleware('auth');
+
+Route::resource('/locations', LocationController::class);
+
 
 require __DIR__.'/auth.php';
