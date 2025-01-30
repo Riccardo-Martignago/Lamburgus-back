@@ -22,8 +22,9 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Auth::user()->companies;
+        $locations = Location::all()->keyBy('id');
 
-        return view('company.index', compact('companies'));
+        return view('company.index', compact('companies','locations'));
     }
 
         public function create(Request $request)
@@ -59,19 +60,24 @@ class CompanyController extends Controller
         return redirect()->route('dashboard');
     }
 
-    public function edit (Company $companies)
+    public function edit ($id)
     {
-        return view('company.edit', compact('companies'));
+        $locations = Location::all();
+        $companies = Company::with('location')->findOrFail($id);
+        return view('company.edit', compact('companies', 'locations'));
     }
-    public function update(Request $request, Company $company)
+    public function update(Request $request, $id)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone_number' => 'required|string|max:20',
+            'location_id' => 'required|exists:locations,id',
         ]);
+
+        $company = Company::findOrFail($id);
         $company->update($validated);
+
         return redirect()->route('company.index')->with('success', 'Company updated successfully.');
     }
 }
