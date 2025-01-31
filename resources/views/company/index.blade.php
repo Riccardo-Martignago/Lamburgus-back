@@ -12,17 +12,20 @@
                             Phone Number: {{ $companies->phone_number }}
                         </p>
                         <p class="mt-2 text-base text-gray-700 dark:text-gray-300">
-                            Location: {{ $companies->location_id }}
+                            Location: {{ $locations[$companies->location_id]->name }}
                         </p>
                     </div>
                     <div class="flex items-center justify-between px-6 py-4">
                         <a href=" {{ route('company.edit', $companies->id) }} "class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                             Edit
                         </a>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">updated at {{ $companies->updated_at }} </span>
+                        <span class="text-sm text-gray-500 dark:text-gray-400">Updated at {{ $companies->updated_at }} </span>
                     </div>
                 </div>
             @endforeach
+            <a href=" {{ route('company.create') }} "class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                Add new company
+            </a>
         </div>
     </div>
 </x-app-layout>
