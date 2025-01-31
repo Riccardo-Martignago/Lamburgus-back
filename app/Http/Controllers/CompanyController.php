@@ -70,9 +70,8 @@ class CompanyController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'email' => 'required|string|lowercase|email|max:255',
             'phone_number' => 'required|string|max:20',
-            'location_id' => 'required|exists:locations,id',
         ]);
 
         $company = Company::findOrFail($id);
