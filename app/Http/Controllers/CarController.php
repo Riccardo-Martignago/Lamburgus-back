@@ -27,15 +27,19 @@ class CarController extends Controller
         return view('car.index', compact('cars', 'company'));
     }
 
-    public function create()
+    public function show($id)
     {
-        $companies = Company::all();
-        return view('car.create', compact('companies'));
+        $car = Car::findOrFail($id);
+        return view('car.show', compact('car'));
     }
 
-    /**
-     * Salva una nuova auto nel database.
-     */
+    public function create(Request $request)
+    {
+        $selectedCompany = $request->has('company_id') ? Company::findOrFail($request->company_id) : null;
+
+        return view('car.create', compact('selectedCompany'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -46,8 +50,29 @@ class CarController extends Controller
             'license_plate' => 'required|string|unique:cars,license_plate',
         ]);
 
-        Car::create($request->all());
+        $car = Car::create($request->all());
 
-        return redirect()->route('car.index')->with('success', 'Auto creata con successo!');
+        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'Auto creata con successo!');
+    }
+
+    public function edit($id)
+    {
+        $car = Car::findOrFail($id);
+        return view('car.edit', compact('car'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'model' => 'required|string|max:255',
+            'brand' => 'required|string|max:255',
+            'year' => 'required|integer|min:1900|max:' . date('Y'),
+            'license_plate' => 'required|string|unique:cars,license_plate,' . $id,
+        ]);
+
+        $car = Car::findOrFail($id);
+        $car->update($request->all());
+
+        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'Auto aggiornata con successo!');
     }
 }

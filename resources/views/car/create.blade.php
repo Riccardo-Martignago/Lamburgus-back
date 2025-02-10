@@ -13,37 +13,33 @@
         <form action="{{ route('car.store') }}" method="POST">
             @csrf
 
-            <div class="mb-3">
-                <label for="company_id" class="form-label">Azienda</label>
-                <select name="company_id" id="company_id" class="form-control" required>
-                    <option value="">Seleziona un'azienda</option>
-                    @foreach ($companies as $company)
-                        <option value="{{ $company->id }}">{{ $company->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+            @if(isset($selectedCompany))
+                <label for="company_id">Company:</label>
+                <input type="text" value="{{ $selectedCompany->name }}" disabled>
+                <input type="hidden" name="company_id" value="{{ $selectedCompany->id }}">
+            @endif
 
             <div class="mb-3">
-                <label for="model" class="form-label">Modello</label>
+                <label for="model" class="form-label">Model:</label>
                 <input type="text" name="model" id="model" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="brand" class="form-label">Marca</label>
+                <label for="brand" class="form-label">Brand:</label>
                 <input type="text" name="brand" id="brand" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="year" class="form-label">Anno</label>
+                <label for="year" class="form-label">Year:</label>
                 <input type="number" name="year" id="year" class="form-control" min="1900" max="{{ date('Y') }}" required>
             </div>
 
             <div class="mb-3">
-                <label for="license_plate" class="form-label">Targa</label>
+                <label for="license_plate" class="form-label">License plate:</label>
                 <input type="text" name="license_plate" id="license_plate" class="form-control" required>
             </div>
 
-            <button type="submit" class="btn btn-primary">Salva</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
     </x-guest-layout>
