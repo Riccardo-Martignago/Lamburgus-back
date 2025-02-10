@@ -9,14 +9,22 @@ use Illuminate\Support\Facades\Auth;
 
 class CarController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
-        $companyIds = $user->companies->pluck('id');
+        // Controlla se è stata passata una company_id nella query string
+        if (!$request->has('company_id')) {
+            return redirect()->back()->with('error', 'Nessuna azienda selezionata.');
+        }
 
-        $cars = Car::whereIn('company_id', $companyIds)->paginate(10);
+        $company_id = $request->company_id;
 
-        return view('car.index', compact('cars'));
+        // Trova l'azienda per verificare che esista
+        $company = Company::findOrFail($company_id);
+
+        // Filtra solo le macchine che appartengono a questa azienda
+        $cars = Car::where('company_id', $company_id)->paginate(10);
+
+        return view('car.index', compact('cars', 'company'));
     }
 
     public function create()

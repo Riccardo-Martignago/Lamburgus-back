@@ -27,6 +27,14 @@ class CompanyController extends Controller
         return view('company.index', compact('companies','locations'));
     }
 
+    public function show($id)
+    {
+        $company = Company::findOrFail($id);
+        $location = Location::find($company->location_id);
+
+        return view('company.show', compact('company', 'location'));
+    }
+
         public function create(Request $request)
     {
         // data location and authenticated user

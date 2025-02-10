@@ -22,6 +22,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('/company', CompanyController::class)->middleware('auth');
+// Route::get('/company/{company}/cars', [CarController::class, 'indexByCompany'])->name('car.index')->middleware('auth');
 Route::resource('/car', CarController::class)->middleware('auth');
 
 Route::resource('/locations', LocationController::class);
