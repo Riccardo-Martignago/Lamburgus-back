@@ -5,14 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Location;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
 
 class CompanyController extends Controller
 {
@@ -25,6 +20,14 @@ class CompanyController extends Controller
         $locations = Location::all()->keyBy('id');
 
         return view('company.index', compact('companies','locations'));
+    }
+
+    public function show($id)
+    {
+        $company = Company::findOrFail($id);
+        $location = Location::find($company->location_id);
+
+        return view('company.show', compact('company', 'location'));
     }
 
         public function create(Request $request)
@@ -78,5 +81,13 @@ class CompanyController extends Controller
         $company->update($validated);
 
         return redirect()->route('company.index')->with('success', 'Company updated successfully.');
+    }
+
+    public function destroy($id)
+    {
+        $company = Company::findOrFail($id);
+        $company->delete();
+
+        return redirect()->route('company.index')->with('success', 'Company deleted successfully.');
     }
 }
