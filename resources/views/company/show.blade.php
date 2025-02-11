@@ -18,18 +18,18 @@
                     <a href="{{ route('company.edit', $company->id) }}" class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
                         Edit
                     </a>
-                    {{-- <form action="{{ route('company.destroy', $company->id) }}" method="POST">
+                    <form action="{{ route('company.destroy', $company->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-opacity-50">
                             Delete
                         </button>
-                    </form> --}}
+                    </form>
                     <span class="text-sm text-gray-500 dark:text-gray-400">Updated at {{ $company->updated_at }} </span>
                 </div>
                 <a href="{{ route('car.index', ['company_id' => $company->id]) }}"
                     class="px-4 py-2 mt-4 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                    Vedi Auto Correlate
+                    Car List
                 </a>
             </div>
             <a href="{{ route('company.index') }}" class="inline-block px-4 py-2 mt-4 text-white bg-gray-500 rounded-lg hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50">

@@ -11,17 +11,14 @@ class CarController extends Controller
 {
     public function index(Request $request)
     {
-        // Controlla se è stata passata una company_id nella query string
         if (!$request->has('company_id')) {
-            return redirect()->back()->with('error', 'Nessuna azienda selezionata.');
+            return redirect()->back()->with('error', 'Company not found.');
         }
 
         $company_id = $request->company_id;
 
-        // Trova l'azienda per verificare che esista
         $company = Company::findOrFail($company_id);
 
-        // Filtra solo le macchine che appartengono a questa azienda
         $cars = Car::where('company_id', $company_id)->paginate(10);
 
         return view('car.index', compact('cars', 'company'));
@@ -52,7 +49,7 @@ class CarController extends Controller
 
         $car = Car::create($request->all());
 
-        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'Auto creata con successo!');
+        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'New car added!');
     }
 
     public function edit($id)
@@ -73,6 +70,14 @@ class CarController extends Controller
         $car = Car::findOrFail($id);
         $car->update($request->all());
 
-        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'Auto aggiornata con successo!');
+        return redirect()->route('car.show', ['car' => $car->id])->with('success', 'Car update successful!');
+    }
+
+    public function destroy($id)
+    {
+        $car = Car::findOrFail($id);
+        $car->delete();
+
+        return redirect()->route('car.index', ['company_id' => $car->company_id])->with('success', 'Car delete successful!');
     }
 }
