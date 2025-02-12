@@ -13,12 +13,16 @@ class LocationController extends Controller
      */
     public function index()
     {
-
         $locations = Location::all();
 
         return view('locations.index', compact('locations'));
     }
 
+public function create()
+    {
+        return view('locations.create');
+    }
+  
     public function store(Request $request)
     {
         $request->validate([
@@ -36,4 +40,5 @@ class LocationController extends Controller
         return response()->json(['location' => $location]);
     }
 
+    
 }
