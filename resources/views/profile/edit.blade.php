@@ -12,12 +12,6 @@
                     @include('profile.partials.update-profile-information-form')
                 </div>
             </div>
-{{--
-            <div class="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('components.locations.edit')
-                </div>
-            </div> --}}
 
             <div class="p-4 bg-white shadow sm:p-8 dark:bg-gray-800 sm:rounded-lg">
                 <div class="max-w-xl">

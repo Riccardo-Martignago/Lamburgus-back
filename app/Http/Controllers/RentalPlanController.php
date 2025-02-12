@@ -1,0 +1,98 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\RentalPlan;
+use App\Models\Car;
+use App\Models\Location;
+
+class RentalPlanController extends Controller
+{
+    /**
+     * Display a listing of rental plans.
+     */
+    public function index()
+    {
+        $rentalPlans = RentalPlan::with(['car', 'location'])->paginate(10);
+        return view('rental-plan.index', compact('rentalPlans'));
+    }
+
+    /**
+     * Show the form for creating a new rental plan.
+     */
+    public function create()
+    {
+        $cars = Car::all();
+        $locations = Location::all();
+        return view('rental-plan.create', compact('cars', 'locations'));
+    }
+
+    /**
+     * Store a newly created rental plan.
+     */
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'location_id' => 'required|exists:locations,id',
+            'car_id' => 'required|exists:cars,id',
+            'daily_rate' => 'required|numeric|min:0',
+            'hourly_rate' => 'required|numeric|min:0',
+            'available_from' => 'required|date',
+            'available_to' => 'required|date|after_or_equal:available_from',
+        ]);
+
+        RentalPlan::create($validated);
+
+        return redirect()->route('rental-plan.index')->with('success', 'Rental plan created successfully!');
+    }
+
+    /**
+     * Display the specified rental plan.
+     */
+    public function show($id)
+    {
+        $rentalPlan = RentalPlan::with(['car', 'location'])->findOrFail($id);
+        return view('rental-plan.show', compact('rentalPlan'));
+    }
+
+    /**
+     * Show the form for editing the specified rental plan.
+     */
+    public function edit($id)
+    {
+        $rentalPlan = RentalPlan::findOrFail($id);
+        $cars = Car::all();
+        $locations = Location::all();
+        return view('rental-plan.edit', compact('rentalPlan', 'cars', 'locations'));
+    }
+
+    /**
+     * Update the specified rental plan.
+     */
+    public function update(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'location_id' => 'required|exists:locations,id',
+            'car_id' => 'required|exists:cars,id',
+            'daily_rate' => 'required|numeric|min:0',
+            'hourly_rate' => 'required|numeric|min:0',
+            'available_from' => 'required|date',
+            'available_to' => 'required|date|after_or_equal:available_from',
+        ]);
+
+        $rentalPlan = RentalPlan::findOrFail($id);
+        $rentalPlan->update($validated);
+
+        return redirect()->route('rental-plan.index')->with('success', 'Rental plan updated successfully!');
+    }
+
+    public function destroy($id)
+    {
+        $rentalPlan = RentalPlan::findOrFail($id);
+        $rentalPlan->delete();
+
+        return redirect()->route('rental-plan.index')->with('success', 'Rental Plan deleted successfully.');
+    }
+
+}
