@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Car;
 use App\Models\Company;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\CarRequest;
 
 class CarController extends Controller
 {
@@ -37,16 +37,8 @@ class CarController extends Controller
         return view('car.create', compact('selectedCompany'));
     }
 
-    public function store(Request $request)
+    public function store(CarRequest $request)
     {
-        $request->validate([
-            'company_id' => 'required|exists:companies,id',
-            'model' => 'required|string|max:255',
-            'brand' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . date('Y'),
-            'license_plate' => 'required|string|unique:cars,license_plate',
-        ]);
-
         $car = Car::create($request->all());
 
         return redirect()->route('car.show', ['car' => $car->id])->with('success', 'New car added!');
@@ -58,15 +50,8 @@ class CarController extends Controller
         return view('car.edit', compact('car'));
     }
 
-    public function update(Request $request, $id)
+    public function update(CarRequest $request, $id)
     {
-        $request->validate([
-            'model' => 'required|string|max:255',
-            'brand' => 'required|string|max:255',
-            'year' => 'required|integer|min:1900|max:' . date('Y'),
-            'license_plate' => 'required|string|unique:cars,license_plate,' . $id,
-        ]);
-
         $car = Car::findOrFail($id);
         $car->update($request->all());
 

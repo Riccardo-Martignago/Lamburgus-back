@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use App\Http\Requests\CompanyRequest;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 
@@ -43,15 +44,8 @@ class CompanyController extends Controller
         return view('company.create', compact('user', 'locations'));
     }
 
-    public function store(Request $request)
+    public function store(CompanyRequest $request)
     {
-
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:companies,email'],
-            'phone_number' => ['required', 'digits:11'],
-        ]);
-
         Company::create([
             'user_id' => Auth::id(),
             'location_id' => $request->location_id,
@@ -60,7 +54,7 @@ class CompanyController extends Controller
             'phone_number' => $request->phone_number,
         ]);
 
-        return redirect()->route('dashboard');
+        return redirect()->route('company.index')->with('success', 'Company created successfully.');
     }
 
     public function edit ($id)
@@ -69,16 +63,11 @@ class CompanyController extends Controller
         $companies = Company::with('location')->findOrFail($id);
         return view('company.edit', compact('companies', 'locations'));
     }
-    public function update(Request $request, $id)
-    {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255',
-            'phone_number' => 'required|string|max:20',
-        ]);
 
+    public function update(CompanyRequest $request, $id)
+    {
         $company = Company::findOrFail($id);
-        $company->update($validated);
+        $company->update($request->validated());
 
         return redirect()->route('company.index')->with('success', 'Company updated successfully.');
     }

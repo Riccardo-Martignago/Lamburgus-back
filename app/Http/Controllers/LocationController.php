@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Requests\LocationRequest;
 use App\Models\Location;
 
 class LocationController extends Controller
@@ -29,13 +30,10 @@ class LocationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-        ]);
+        Location::create($request->validated());
 
-        Location::create($validated);
         return redirect()->route('locations.index')->with('success', 'Location created successfully.');
     }
 }
