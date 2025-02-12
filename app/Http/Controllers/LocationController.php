@@ -18,24 +18,27 @@ class LocationController extends Controller
         return view('locations.index', compact('locations'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+public function create()
     {
         return view('locations.create');
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
+  
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
+        $request->validate([
+            'new_location_name' => 'required|string|max:255',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
         ]);
 
-        Location::create($validated);
-        return redirect()->route('locations.index')->with('success', 'Location created successfully.');
+        $location = Location::create([
+            'name' => $request->new_location_name,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return response()->json(['location' => $location]);
     }
+
+    
 }
