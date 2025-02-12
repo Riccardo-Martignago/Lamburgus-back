@@ -22,7 +22,7 @@ public function create()
     {
         return view('locations.create');
     }
-  
+
     public function store(Request $request)
     {
         $request->validate([
@@ -40,5 +40,5 @@ public function create()
         return response()->json(['location' => $location]);
     }
 
-    
+
 }
