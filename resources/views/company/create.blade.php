@@ -77,7 +77,7 @@
                     "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content")
                 },
                 body: JSON.stringify({
-                    new_location_name: name,
+                    name: name,
                     latitude: latitude,
                     longitude: longitude
                 })

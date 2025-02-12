@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use App\Http\Requests\LocationRequest;
 use App\Models\Location;
 
 class LocationController extends Controller
@@ -18,27 +19,15 @@ class LocationController extends Controller
         return view('locations.index', compact('locations'));
     }
 
-public function create()
+    public function create()
     {
         return view('locations.create');
     }
 
-    public function store(Request $request)
+    public function store(LocationRequest $request)
     {
-        $request->validate([
-            'new_location_name' => 'required|string|max:255',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-        ]);
-
-        $location = Location::create([
-            'name' => $request->new_location_name,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-        ]);
+        $location = Location::create($request->validated());
 
         return response()->json(['location' => $location]);
     }
-
-
 }
