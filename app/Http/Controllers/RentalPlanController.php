@@ -96,7 +96,7 @@ class RentalPlanController extends Controller
         $rentalPlan = RentalPlan::findOrFail($id);
         $rentalPlan->update($validated);
 
-        return redirect()->route('rental-plan.index')->with('success', 'Rental plan updated successfully!');
+        return redirect()->route('rental-plan.show', $rentalPlan->id)->with('success', 'Rental plan updated successfully!');
     }
 
     public function destroy($id)
