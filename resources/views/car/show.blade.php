@@ -22,5 +22,9 @@
                 Delete
             </button>
         </form>
+        <a href="{{ route('rental-plan.index', ['car_id' => $car->id])}}"
+            class="px-4 py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+            Rental plans
+        </a>
     </div>
 </x-app-layout>

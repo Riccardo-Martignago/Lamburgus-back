@@ -4,7 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\CarController;
-
+use App\Http\Controllers\RentalPlanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('/company', CompanyController::class);
     Route::resource('/car', CarController::class);
+    Route::resource('/rental-plan', RentalPlanController::class);
 });
 
 Route::resource('/locations', LocationController::class);
