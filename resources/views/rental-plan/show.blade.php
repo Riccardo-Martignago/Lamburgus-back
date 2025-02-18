@@ -9,6 +9,6 @@
         <p><strong>Available From:</strong> {{ $rentalPlan->available_from }}</p>
         <p><strong>Available To:</strong> {{ $rentalPlan->available_to }}</p>
 
-        <a href="{{ route('rental-plan.index') }}" class="mt-4 text-blue-500">Back to List</a>
+        <a href="{{ route('rental-plan.index',['car_id' => $rentalPlan->car_id]) }}" class="mt-4 text-blue-500">Back to List</a>
     </div>
 </x-guest-layout>

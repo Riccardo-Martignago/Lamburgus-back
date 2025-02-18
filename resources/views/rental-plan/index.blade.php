@@ -2,7 +2,10 @@
     <div class="py-10 mx-auto max-w-7xl">
         <h1 class="mb-4 text-2xl font-bold">Rental Plans</h1>
 
-        <a href="{{ route('rental-plan.create') }}" class="px-4 py-2 text-white bg-green-500 rounded">Create New Plan</a>
+        <a href="{{ route('rental-plan.create', ['car_id' => request('car_id')]) }}"
+            class="inline-block px-4 py-2 mb-6 text-white bg-green-500 rounded-lg hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">
+            Create new rental plan
+        </a>
 
         <table class="w-full mt-4 border border-collapse border-gray-300">
             <thead>

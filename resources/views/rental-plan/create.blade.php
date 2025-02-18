@@ -4,12 +4,12 @@
 
         <form action="{{ route('rental-plan.store') }}" method="POST">
             @csrf
-            <label>Car</label>
-            <select name="car_id" required>
-                @foreach($cars as $car)
-                    <option value="{{ $car->id }}">{{ $car->model }}</option>
-                @endforeach
-            </select>
+
+            @if(isset($selectedCar))
+                <label for="car_id">Car</label>
+                <input type="text" value="{{ $selectedCar->model }}" disabled>
+                <input type="hidden" name="car_id" value="{{ $selectedCar->id }}">
+            @endif
 
             <label>Location</label>
             <select name="location_id" required>
