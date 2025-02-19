@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CompanyController;
@@ -22,6 +23,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('/company', CompanyController::class);
     Route::resource('/car', CarController::class);
     Route::resource('/rental-plan', RentalPlanController::class);
+    Route::resource('/booking', BookingController::class);
 });
 
 Route::resource('/locations', LocationController::class);
