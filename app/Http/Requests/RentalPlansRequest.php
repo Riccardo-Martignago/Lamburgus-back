@@ -12,7 +12,7 @@ class RentalPlansRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::check(); // Controlla se l'utente è autenticato
+        return Auth::check(); // Check if the user is authenticated
     }
 
     /**
