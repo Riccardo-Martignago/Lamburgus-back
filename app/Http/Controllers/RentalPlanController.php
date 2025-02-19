@@ -20,11 +20,8 @@ class RentalPlanController extends Controller
         }
 
         $car_id = $request->car_id;
-
-        $car = car::findOrFail($car_id);
-
+        $car = Car::findOrFail($car_id);
         $rentalPlans = RentalPlan::where('car_id', $car_id)->paginate(10);
-
         $locations = Location::all();
 
         return view('rental-plan.index', compact('rentalPlans', 'locations', 'car'));
@@ -46,10 +43,9 @@ class RentalPlanController extends Controller
      */
     public function store(RentalPlansRequest $request)
     {
-
         $rentalPlan = RentalPlan::create($request->validated());
 
-        return redirect()->route('rental-plan.show',['rental_plan' => $rentalPlan->id])->with('success', 'Rental plan created successfully!');
+        return redirect()->route('rental-plan.show', ['rental_plan' => $rentalPlan->id])->with('success', 'Rental plan created successfully!');
     }
 
     /**
@@ -75,14 +71,17 @@ class RentalPlanController extends Controller
     /**
      * Update the specified rental plan.
      */
-    public function update(Request $request, $id)
+    public function update(RentalPlansRequest $request, $id)
     {
         $rentalPlan = RentalPlan::findOrFail($id);
         $rentalPlan->update($request->validated());
 
-        return redirect()->route('rental-plan.show', $rentalPlan->id)->with('success', 'Rental plan updated successfully!');
+        return redirect()->route('rental-plan.show', ['rental_plan' => $rentalPlan->id])->with('success', 'Rental plan updated successfully!');
     }
 
+    /**
+     * Remove the specified rental plan.
+     */
     public function destroy($id)
     {
         $rentalPlan = RentalPlan::findOrFail($id);
@@ -90,5 +89,4 @@ class RentalPlanController extends Controller
 
         return redirect()->route('rental-plan.index')->with('success', 'Rental Plan deleted successfully.');
     }
-
 }
