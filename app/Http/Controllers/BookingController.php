@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookingRequest;
 use Illuminate\Http\Request;
 use App\Models\Booking;
 
@@ -27,19 +28,9 @@ class BookingController extends Controller
 
     }
 
-    public function store(Request $request)
+    public function store(BookingRequest $request)
     {
-        $validatedData = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'pickup_location_id' => 'required|exists:locations,id',
-            'dropoff_location_id' => 'required|exists:locations,id',
-            'car_id' => 'required|exists:cars,id',
-            'start_date' => 'required|date',
-            'end_date' => 'required|date|after:start_date',
-            'total_price' => 'required|numeric'
-        ]);
-
-        $booking = Booking::create($validatedData);
+        $booking = Booking::create($request->validate());
         return response()->json($booking, 201);
     }
 
@@ -48,24 +39,14 @@ class BookingController extends Controller
 
     }
 
-    public function update(Request $request, $id)
+    public function update(BookingRequest $request, $id)
     {
         $booking = Booking::find($id);
         if (!$booking) {
             return response()->json(['message' => 'Booking not found'], 404);
         }
 
-        $validatedData = $request->validate([
-            'user_id' => 'sometimes|exists:users,id',
-            'pickup_location_id' => 'sometimes|exists:locations,id',
-            'dropoff_location_id' => 'sometimes|exists:locations,id',
-            'car_id' => 'sometimes|exists:cars,id',
-            'start_date' => 'sometimes|date',
-            'end_date' => 'sometimes|date|after:start_date',
-            'total_price' => 'sometimes|numeric'
-        ]);
-
-        $booking->update($validatedData);
+        $booking->update($request->validate());
         return response()->json($booking);
     }
 
