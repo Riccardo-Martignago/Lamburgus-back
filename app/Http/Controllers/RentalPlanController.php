@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\RentalPlan;
+use App\Http\Requests\RentalPlansRequest;
 use App\Models\Location;
 use App\Models\Car;
 
@@ -43,18 +44,10 @@ class RentalPlanController extends Controller
     /**
      * Store a newly created rental plan.
      */
-    public function store(Request $request)
+    public function store(RentalPlansRequest $request)
     {
-        $validated = $request->validate([
-            'location_id' => 'required|exists:locations,id',
-            'car_id' => 'required|exists:cars,id',
-            'daily_rate' => 'required|numeric|min:0',
-            'hourly_rate' => 'required|numeric|min:0',
-            'available_from' => 'required|date',
-            'available_to' => 'required|date|after_or_equal:available_from',
-        ]);
 
-        $rentalPlan = RentalPlan::create($validated);
+        $rentalPlan = RentalPlan::create($request->validated());
 
         return redirect()->route('rental-plan.show',['rental_plan' => $rentalPlan->id])->with('success', 'Rental plan created successfully!');
     }
@@ -84,17 +77,8 @@ class RentalPlanController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'location_id' => 'required|exists:locations,id',
-            'car_id' => 'required|exists:cars,id',
-            'daily_rate' => 'required|numeric|min:0',
-            'hourly_rate' => 'required|numeric|min:0',
-            'available_from' => 'required|date',
-            'available_to' => 'required|date|after_or_equal:available_from',
-        ]);
-
         $rentalPlan = RentalPlan::findOrFail($id);
-        $rentalPlan->update($validated);
+        $rentalPlan->update($request->validated());
 
         return redirect()->route('rental-plan.show', $rentalPlan->id)->with('success', 'Rental plan updated successfully!');
     }
