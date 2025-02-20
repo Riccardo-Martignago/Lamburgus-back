@@ -20,6 +20,10 @@
                         <x-nav-link :href="route('company.index')" :active="request()->routeIs('dashboard')">
                             {{ __('Companies') }}
                         </x-nav-link>
+
+                        <x-nav-link :href="route('booking.index')" :active="request()->routeIs('dashboard')">
+                            {{ __('Booking') }}
+                        </x-nav-link>
                     @endif
                 </div>
             </div>
