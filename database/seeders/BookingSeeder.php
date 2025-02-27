@@ -17,9 +17,10 @@ class BookingSeeder extends Seeder
         DB::table('bookings')->insert([
             [
                 'user_id' => 3, // Customer User
+                'company_id' => 1,
+                'car_id' => 1, // Toyota Corolla
                 'pickup_location_id' => 1, // Rome
                 'dropoff_location_id' => 2, // Milan
-                'car_id' => 1, // Toyota Corolla
                 'start_date' => '2025-01-20',
                 'end_date' => '2025-01-25',
                 'total_price' => 250.00,
@@ -28,9 +29,10 @@ class BookingSeeder extends Seeder
             ],
             [
                 'user_id' => 3, // Customer User
+                'company_id' => 2,
+                'car_id' => 2, // Ford Focus
                 'pickup_location_id' => 2, // Milan
                 'dropoff_location_id' => 1, // Rome
-                'car_id' => 2, // Ford Focus
                 'start_date' => '2025-02-01',
                 'end_date' => '2025-02-05',
                 'total_price' => 300.00,
